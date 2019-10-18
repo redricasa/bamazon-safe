@@ -30,7 +30,7 @@ var promptCustomer = function(){
             message: "What do you want to buy?",
             choices: ["knit_jacket", "imagination_trench", "knit_blazer", "sweatshirt","tank_top", "t-shirt", "jumpsuit", "skirt", "midi_skirt", "heels"],
             name: "wearables",
-        },
+        }
     ])
     .then(function (answers) {
         // console.log('You chose to buy :', answers.wearables);
@@ -51,7 +51,7 @@ var promptCustomer = function(){
             },//take the number and update the sql database by subtracting from stock quantity
         ]).then(function(answer2){
             console.log(answer2);
-            console.log("You chose to buy " + answer2.amount + "of the "+ answers.wearables);
+            console.log("You chose to buy " + answer2 + "of the "+ answers.wearables);
             var select = "SELECT * FROM products WHERE product_name = " + answers.wearables
             // connect.query(select)
             connect.query(select, function(error, response){
@@ -78,7 +78,7 @@ var promptCustomer = function(){
         //multiply user # by price and console log out total cost
         //callback - prompt user again or exit
         })
-    });
+    })
 }
 // prompts if user wants to enter the store or exit
 function promptMenu() {
