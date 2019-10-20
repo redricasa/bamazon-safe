@@ -24,4 +24,5 @@ Once the order is made, the inventory will be updated with the amount left and t
 ![what-do-you-want-to-buy](/images/bamazon5.png)
 ## Next Steps
 > Code out the part in psudocode so that the number of a particular product that the user wants to buy gets multiplied by the price of the product to get the `Total cost`, and the number gets subtracted from the `stock_quantity` to update the table to reflect the inventory. 
+> Make the functions recursive.
  
