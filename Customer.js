@@ -55,8 +55,8 @@ function amount (answers) {
                 return true
             },
         },
-    ]).then((answer2)=> {
-        return query(answer2)
+    ]).then((answer2, item)=> {
+        return query(answer2, item)
     })
 }
 //gets the whole row of the chosen product
