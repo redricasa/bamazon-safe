@@ -54,24 +54,24 @@ function amount (answers) {
                 }
                 return true
             },
-        }.then((answer2)=> {
-            return query(answer2)
-        }),
-    ])
+        },
+    ]).then((answer2)=> {
+        return query(answer2)
+    })
 }
 //gets the whole row of the chosen product
-function query (answer2){
+function query (answer2, item){
     console.log(answer2);
     console.log("You chose to buy " + answer2 + "of the "+ answers.wearables);
-    var stringProduct = JSON.stringify(answers.wearables)
+    // var stringProduct = JSON.stringify(answers.wearables)
     var select = ("SELECT * FROM bamazon_db.products WHERE product_name = ?",[stringProduct]) 
     // connect.query(select)
     connect.query(select, function(error, response){
         if (error) throw error;
         console.table(response);
+        return 
     })
 }
-
 function update (subtract){
     //"UPDATE products SET stock_quantity = " + stock_quantity - answer
 
