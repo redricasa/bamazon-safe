@@ -11,18 +11,22 @@ var connect = mysql.createConnection({
 //connect to mysql
 connect.connect(function(err){
     if (err) throw err;
-    console.log("Connected to mySql Workbench!!")
-    promptMenu()
+    console.log("Connected to mySql!!")
+    promptMenu().then(() => {
+        return display();
+    });
 });
 //a function that displays the database of products to the user
 var displayTable = function(){
     connect.query("SELECT * FROM products", function(error, response){
         if (error) throw error;
         console.table(response);
-        promptCustomer();
+        promptCustomer().then((answers) => {
+            return amount(answers);
+        });
     })
 }
-// functinon to allow user to select a product and get a total
+// functinon to allow user to select a product
 var promptCustomer = function(){
     return inquirer.prompt([
         {
@@ -33,6 +37,7 @@ var promptCustomer = function(){
         }
     ])
 }
+//prompt for the amount of chosen product user wants to purchase
 function amount (answers) {
     // console.log('You chose to buy :', answers.wearables);
     return inquirer.prompt([
@@ -51,23 +56,24 @@ function amount (answers) {
                 }
                 return true
             },
-            // filter: Number
-        },//take the number and update the sql database by subtracting from stock quantity
+        }.then((answer2)=> {
+            return query(answer2)
+        }),
     ])
 }
-    //fix the way to the following .then
+//gets the whole row of the chosen product
 function query (answer2){
-        console.log(answer2);
-        console.log("You chose to buy " + answer2 + "of the "+ answers.wearables);
-        var stringProduct = JSON.stringify(answers.wearables)
-        var select = ("SELECT * FROM bamazon_db.products WHERE product_name = ?",[stringProduct]) 
-        // connect.query(select)
-        connect.query(select, function(error, response){
-            if (error) throw error;
-            console.table(response);
-        })
+    console.log(answer2);
+    console.log("You chose to buy " + answer2 + "of the "+ answers.wearables);
+    var stringProduct = JSON.stringify(answers.wearables)
+    var select = ("SELECT * FROM bamazon_db.products WHERE product_name = ?",[stringProduct]) 
+    // connect.query(select)
+    connect.query(select, function(error, response){
+        if (error) throw error;
+        console.table(response);
+    })
 }
-
+query();
 function update (subtract){
     //"UPDATE products SET stock_quantity = " + stock_quantity - answer
 
@@ -80,6 +86,7 @@ function update (subtract){
     //subtract user number from stock_quantity
     //if stock_quantity is less than user #, prompt user for a lesser #
 }
+
 function total (total){
     //multiply user # by price and console log out total cost
     //callback - prompt user again or exit
