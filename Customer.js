@@ -12,9 +12,7 @@ var connect = mysql.createConnection({
 connect.connect(function(err){
     if (err) throw err;
     console.log("Connected to mySql!!")
-    promptMenu().then(() => {
-        return display();
-    });
+    promptMenu();
 });
 //a function that displays the database of products to the user
 var displayTable = function(){
@@ -73,7 +71,7 @@ function query (answer2){
         console.table(response);
     })
 }
-query();
+
 function update (subtract){
     //"UPDATE products SET stock_quantity = " + stock_quantity - answer
 
