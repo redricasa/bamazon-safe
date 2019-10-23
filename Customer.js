@@ -67,11 +67,14 @@ function query (answers, item){
     connect.query(select, answers.wearables, function(error, response){
         if (error) throw error;
         var price = response[0].price;
-        var total = price * parseInt(item.amount);
-        console.log("Your tital is : ",total)
+        //gets the stock_quantity of the product and parses it from a string into a number
+        var userAmount = parseInt(item.amount);
+        var total = price * userAmount;
+        console.log("Your TOTAL is : ", total);
         var inventory = response[0].stock_quantity;
         //get the difference b/n stock-quantity and user number
-        var difference = inventory - item.amount
+        var difference = inventory - userAmount;
+        console.log("user chose to buy these #'s of product: ",userAmount)
         if ( difference < 0 ){
             console.log("Insufficient quantity!")
             amount(answers);
@@ -80,7 +83,7 @@ function query (answers, item){
             var update = "UPDATE products SET stock_quantity = ? WHERE product_name = ?"
             connect.query( update , difference, answers.wearables, function(error, res){
                 if (error) throw error;
-            })
+            });
         }
         return; 
     })
