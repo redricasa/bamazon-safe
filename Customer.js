@@ -21,11 +21,7 @@ var displayTable = function(){
         console.table(response);
         promptCustomer().then(answers => {
             amount(answers).then(item => {
-                    // answers conrains product name
-                    console.log (answers)
-                    console.log (item)
-                    // item contains number of items
-                    query(answers, item)
+                query(answers, item)
             });
         });
     })
@@ -67,42 +63,28 @@ function amount (answers) {
 function query (answers, item){
     // console.log("number to buy : ",item);
     // console.log("product name : ",answers)
-    // console.log("You chose to buy " + number + "of the "+ item);
-    // var stringProduct = JSON.stringify(answers.wearables)
     var select = "SELECT * FROM bamazon_db.products WHERE product_name = ?"; 
     connect.query(select, answers.wearables, function(error, response){
         if (error) throw error;
-        // console.table(response);
-        // console.log(response[0].price);
         var price = response[0].price;
         var total = price * parseInt(item.amount);
-        console.log(total)
+        console.log("Your tital is : ",total)
         var inventory = response[0].stock_quantity;
         //get the difference b/n stock-quantity and user number
-        if ( item > inventory){
+        var difference = inventory - item.amount
+        if ( difference < 0 ){
             console.log("Insufficient quantity!")
-
+            amount(answers);
         }else{
             //run query to update table
+            var update = "UPDATE products SET stock_quantity = ? WHERE product_name = ?"
+            connect.query( update , difference, answers.wearables, function(error, res){
+                if (error) throw error;
+            })
         }
-
         return; 
     })
 };
-function update (subtract){
-    //"UPDATE products SET stock_quantity = " + stock_quantity - answer
-
-        // if(( )){
-        //     connect.query("UPDATE products SET stock_quantity = " + stock_quantity - answer )
-        // }else{
-
-        // }
-    //locate the item to update using product name = string in mysql
-    //subtract user number from stock_quantity
-    //if stock_quantity is less than user #, prompt user for a lesser #
-}
-
-
 // prompts if user wants to enter the store or exit
 function promptMenu() {
     console.log('Welcome to the Bamazon store!')
