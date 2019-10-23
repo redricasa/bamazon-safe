@@ -19,8 +19,14 @@ var displayTable = function(){
     connect.query("SELECT * FROM products", function(error, response){
         if (error) throw error;
         console.table(response);
-        promptCustomer().then((answers) => {
-            return amount(answers);
+        promptCustomer().then(answers => {
+            amount(answers).then(item => {
+                    // answers conrains product name
+                    console.log (answers)
+                    console.log (item)
+                    // item contains number of items
+                    query(answers, item)
+            });
         });
     })
 }
@@ -34,7 +40,7 @@ var promptCustomer = function(){
             name: "wearables",
         }
     ])
-}
+};
 //prompt for the amount of chosen product user wants to purchase
 function amount (answers) {
     // console.log('You chose to buy :', answers.wearables);
@@ -55,23 +61,34 @@ function amount (answers) {
                 return true
             },
         },
-    ]).then((answer2, item)=> {
-        return query(answers.wearables, item)
-    })
+    ])
 }
 //gets the whole row of the chosen product
-function query (answer2, item){
-    console.log(answer2);
-    console.log("You chose to buy " + answer2 + "of the "+ answers.wearables);
+function query (answers, item){
+    // console.log("number to buy : ",item);
+    // console.log("product name : ",answers)
+    // console.log("You chose to buy " + number + "of the "+ item);
     // var stringProduct = JSON.stringify(answers.wearables)
-    var select = ("SELECT * FROM bamazon_db.products WHERE product_name = ?",[stringProduct]) 
-    // connect.query(select)
-    connect.query(select, function(error, response){
+    var select = "SELECT * FROM bamazon_db.products WHERE product_name = ?"; 
+    connect.query(select, answers.wearables, function(error, response){
         if (error) throw error;
-        console.table(response);
-        return 
+        // console.table(response);
+        // console.log(response[0].price);
+        var price = response[0].price;
+        var total = price * parseInt(item.amount);
+        console.log(total)
+        var inventory = response[0].stock_quantity;
+        //get the difference b/n stock-quantity and user number
+        if ( item > inventory){
+            console.log("Insufficient quantity!")
+
+        }else{
+            //run query to update table
+        }
+
+        return; 
     })
-}
+};
 function update (subtract){
     //"UPDATE products SET stock_quantity = " + stock_quantity - answer
 
@@ -85,10 +102,7 @@ function update (subtract){
     //if stock_quantity is less than user #, prompt user for a lesser #
 }
 
-function total (total){
-    //multiply user # by price and console log out total cost
-    //callback - prompt user again or exit
-}
+
 // prompts if user wants to enter the store or exit
 function promptMenu() {
     console.log('Welcome to the Bamazon store!')
@@ -97,7 +111,7 @@ function promptMenu() {
             type: 'list',
             name: 'store',
             message: 'Would you like to shop or exit?',
-            choices: ['SHOP', 'EXIT',],
+            choices: ['SHOP', 'EXIT'],
         }
     ]).then(function(choice) {
         switch(choice.store) {
