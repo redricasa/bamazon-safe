@@ -24,7 +24,8 @@ Once the order is made, the inventory will be updated with the amount left and t
 ![what-do-you-want-to-buy](/images/bamazon5.png)
 - Once the user selects a number less than the inventory amount, the table is updated. And the total is calculated and displayed 
 ![what-do-you-want-to-buy](/images/bamazon1.png)
-
+- If user selects a number more than amount available in inventory, the program console logs out "insufficient quantity!" and the user is prompted again
+![what-do-you-want-to-buy](/images/bamazon7.png)
 ## Next Steps
 > - if the inventory has a product with 0 (nothing to buy), console log out "We're out of ${product_name}". Then end the prompt asking for how many to buy and display the table again.
 > - Currently, if the user chooses a larger number than what's available, the program gets stuck. One solution could be to include a condition in the propmpt with an if/else statement to check if the amount chosen is equal to the inventory and update the table accordingly or place a return statement.
