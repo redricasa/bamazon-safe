@@ -22,7 +22,13 @@ Once the order is made, the inventory will be updated with the amount left and t
 ![what-do-you-want-to-buy](/images/bamazon4.png)
 - This image shows some of the senarios where the user doesn't select a number more than 0 nor a non-numeral. 
 ![what-do-you-want-to-buy](/images/bamazon5.png)
+- Once the user selects a number less than the inventory amount, the table is updated. And the total is calculated and displayed 
+![what-do-you-want-to-buy](/images/bamazon1.png)
+
 ## Next Steps
-> Code out the part in psudocode so that the number of a particular product that the user wants to buy gets multiplied by the price of the product to get the `Total cost`, and the number gets subtracted from the `stock_quantity` to update the table to reflect the inventory. 
-> Make the functions recursive.
+> - if the inventory has a product with 0 (nothing to buy), console log out "We're out of ${product_name}". Then end the prompt asking for how many to buy and display the table again.
+> - Currently, if the user chooses a larger number than what's available, the program gets stuck. One solution could be to include a condition in the propmpt with an if/else statement to check if the amount chosen is equal to the inventory and update the table accordingly or place a return statement.
+> - if the customer chooses to keep shopping and buys more products, calculate and display an updated total amount.
+
+
  

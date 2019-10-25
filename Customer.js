@@ -109,6 +109,7 @@ function keepShopping(){
         }else{
             console.log("Here's the updated inventory to choose from: ")
             displayTable();
+            return;
         }
     })
 }
