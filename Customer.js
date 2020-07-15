@@ -51,7 +51,7 @@ function amount (answers) {
                 if(isNaN(value)){
                     console.log('\n You need to provide a number')
                     return false
-                }else if(value == 0 ){
+                }else if(value < 1 ){
                     console.log('\n Please provide a number more than 0')
                     return false
                 }
